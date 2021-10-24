@@ -4,12 +4,43 @@ import time
 
 print("Starting Bag Controller")
 
+# Number of seconds to open the relay
+RELAY_OPEN_SECONDS = 0.04
+# Number of seconds between relays
+RELAY_DELAY_SECONDS = 10
+# Number of relays to iterate
+NUMBER_OF_RELAYS = 3
+
 ONBOARD_LED_PIN = board.GP25
-RELAY_1_GPIO = board.GP6
-RELAY_2_GPIO = board.GP7
-RELAY_3_GPIO = board.GP8
-RELAY_OPEN_SECONDS = 0.02
-RELAY_DELAY_SECONDS = 15
+
+PIN_CONFIG = [
+    board.GP0,
+    board.GP1,
+    board.GP2,
+    board.GP3,
+    board.GP4,
+    board.GP5,
+    board.GP6,
+    board.GP7,
+    board.GP8,
+    board.GP9,
+    board.GP10,
+    board.GP11,
+    board.GP12,
+    board.GP13,
+    board.GP14,
+    board.GP15,
+    board.GP16,
+    board.GP17,
+    board.GP18,
+    board.GP19,
+    board.GP20,
+    board.GP21,
+    board.GP22,
+    board.GP26,
+    board.GP27,
+    board.GP28
+]
 
 
 def setup_output_pin(pin):
@@ -21,7 +52,8 @@ def setup_output_pin(pin):
 def setup_pins(pins):
     output_pins = []
 
-    for pin in pins:
+    for x in range(NUMBER_OF_RELAYS):
+        pin = pins[x]
         output = setup_output_pin(pin)
         output_pins.append(output)
 
@@ -30,8 +62,7 @@ def setup_pins(pins):
 
 onboard_led = setup_output_pin(ONBOARD_LED_PIN)
 
-relays_pins = [RELAY_1_GPIO, RELAY_2_GPIO, RELAY_3_GPIO]
-relays = setup_pins(relays_pins)
+relays = setup_pins(PIN_CONFIG)
 
 
 def print_status(relay_num, status, seconds):
