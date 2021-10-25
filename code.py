@@ -9,7 +9,7 @@ RELAY_OPEN_SECONDS = 0.04
 # Number of seconds between relays
 RELAY_DELAY_SECONDS = 10
 # Number of relays to iterate
-NUMBER_OF_RELAYS = 3
+NUMBER_OF_RELAYS = 5
 
 ONBOARD_LED_PIN = board.GP25
 

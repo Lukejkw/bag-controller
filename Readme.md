@@ -8,9 +8,6 @@ The following settings can be changed to control the timings and pins of the bag
 
 ```py
 ONBOARD_LED_PIN = board.GP25
-RELAY_1_GPIO = board.GP6
-RELAY_2_GPIO = board.GP7
-RELAY_3_GPIO = board.GP9
 RELAY_OPEN_SECONDS = 0.02
 RELAY_DELAY_SECONDS = 15
 ```
@@ -19,10 +16,10 @@ Relay Order Reference:
 
 ```py
 PIN_CONFIG = [
-    board.GP0,
-    board.GP1,
-    board.GP2,
-    board.GP3,
+    board.GP0, # Relay 1
+    board.GP1, # Relay 2
+    board.GP2, # Relay 3
+    board.GP3, # Relay n ...
     board.GP4,
     board.GP5,
     board.GP6,
