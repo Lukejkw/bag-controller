@@ -13,7 +13,20 @@ NUMBER_OF_RELAYS = 5
 
 ONBOARD_LED_PIN = board.GP25
 
-PIN_CONFIG = [
+# Pin mappings for Pico-relay B board
+PICO_RELAY_B_PIN_CONFIG = [
+    board.GP21,  # Channel 1
+    board.GP20,  # Channel 2
+    board.GP19,  # Channel 3
+    board.GP18,  # Channel 4
+    board.GP17,  # Channel 5
+    board.GP16,  # Channel 6
+    board.GP15,  # Channel 7
+    board.GP14,  # Channel 8
+]
+
+# Normal pin mappings
+VANILLA_PIN_CONFIG = [
     board.GP0,
     board.GP1,
     board.GP2,
@@ -41,6 +54,9 @@ PIN_CONFIG = [
     board.GP27,
     board.GP28
 ]
+
+# Set pin mapping
+PIN_CONFIG = PICO_RELAY_B_PIN_CONFIG
 
 
 def setup_output_pin(pin):
