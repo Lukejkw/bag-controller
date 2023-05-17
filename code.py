@@ -14,6 +14,7 @@ NUMBER_OF_RELAYS = 5
 ONBOARD_LED_PIN = board.GP25
 
 # Pin mappings for Pico-relay B board
+# Docs: https://www.waveshare.com/wiki/Pico-Relay-B
 PICO_RELAY_B_PIN_CONFIG = [
     board.GP21,  # Channel 1
     board.GP20,  # Channel 2
