@@ -10,8 +10,12 @@ RELAY_OPEN_SECONDS = 0.04
 RELAY_DELAY_SECONDS = 7
 # Number of relays to iterate
 NUMBER_OF_RELAYS = 5
+# Pin to check for power input
+INPUT_PIN = board.GP1
 
 ONBOARD_LED_PIN = board.GP25
+
+
 
 # Pin mappings for Pico-relay B board
 # Docs: https://www.waveshare.com/wiki/Pico-Relay-B
@@ -26,36 +30,6 @@ PICO_RELAY_B_PIN_CONFIG = [
     board.GP14,  # Channel 8
 ]
 
-# Normal pin mappings
-VANILLA_PIN_CONFIG = [
-    board.GP0,
-    board.GP1,
-    board.GP2,
-    board.GP3,
-    board.GP4,
-    board.GP5,
-    board.GP6,
-    board.GP7,
-    board.GP8,
-    board.GP9,
-    board.GP10,
-    board.GP11,
-    board.GP12,
-    board.GP13,
-    board.GP14,
-    board.GP15,
-    board.GP16,
-    board.GP17,
-    board.GP18,
-    board.GP19,
-    board.GP20,
-    board.GP21,
-    board.GP22,
-    board.GP26,
-    board.GP27,
-    board.GP28
-]
-
 # Set pin mapping
 PIN_CONFIG = PICO_RELAY_B_PIN_CONFIG
 
@@ -64,6 +38,13 @@ def setup_output_pin(pin):
     output = DigitalInOut(pin)
     output.direction = Direction.OUTPUT
     return output
+
+
+def setup_input_pin(pin):
+    input_pin = DigitalInOut(pin)
+    input_pin.direction = Direction.INPUT
+    input_pin.pull = Pull.DOWN  # Use Pull.DOWN to detect high input
+    return input_pin
 
 
 def setup_pins(pins):
@@ -78,19 +59,20 @@ def setup_pins(pins):
 
 
 onboard_led = setup_output_pin(ONBOARD_LED_PIN)
+input_pin = setup_input_pin(INPUT_PIN)
 
 relays = setup_pins(PIN_CONFIG)
 
 
 def print_status(relay_num, status, seconds):
-    statusStr = "on" if status else "off"
+    status_str = "on" if status else "off"
     format_str = "Relay {relay_num} {status} ({seconds} seconds)"
     msg = format_str.format(relay_num=relay_num,
-                            status=statusStr, seconds=seconds)
+                            status=status_str, seconds=seconds)
     print(msg)
 
 
-def toggle_relay(relay):
+def toggle_relay(relay, relay_number):
     print_status(relay_number, True, RELAY_OPEN_SECONDS)
 
     relay.value = False
@@ -108,17 +90,23 @@ for relay in relays:
 time.sleep(RELAY_DELAY_SECONDS)
 
 while True:
-    print("Starting Relay Sequence")
+    # Check if there's power on the input pin
+    if input_pin.value:
+        print("Power detected, starting Relay Sequence")
 
-    relay_number = 1
+        relay_number = 1
 
-    for relay in relays:
-        onboard_led.value = False
+        for relay in relays:
+            onboard_led.value = False
 
-        toggle_relay(relay)
+            toggle_relay(relay, relay_number)
 
-        onboard_led.value = False
-        time.sleep(RELAY_DELAY_SECONDS)
-        relay_number += 1
+            onboard_led.value = False
+            time.sleep(RELAY_DELAY_SECONDS)
+            relay_number += 1
 
-    print("Finished Relay Sequence")
+        print("Finished Relay Sequence")
+    else:
+        print("No power detected, skipping relay sequence")
+
+    time.sleep(RELAY_DELAY_SECONDS)
