@@ -4,12 +4,14 @@ import time
 
 print("Starting Bag Controller")
 
+THIRTY_SECONDS = 30;
+
 # Number of seconds to open the relay
-RELAY_OPEN_SECONDS = 0.04
+RELAY_OPEN_SECONDS = THIRTY_SECONDS
 # Number of seconds between relays
-RELAY_DELAY_SECONDS = 7
+RELAY_DELAY_SECONDS = THIRTY_SECONDS
 # Number of relays to iterate
-NUMBER_OF_RELAYS = 5
+NUMBER_OF_RELAYS = 1
 # Pin to check for power input
 INPUT_PIN = board.GP1
 
