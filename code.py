@@ -5,11 +5,11 @@ import time
 print("Starting Bag Controller")
 
 # Number of seconds to open the relay
-RELAY_OPEN_SECONDS = 0.04
+RELAY_OPEN_SECONDS = 30
 # Number of seconds between relays
-RELAY_DELAY_SECONDS = 7
+RELAY_DELAY_SECONDS = 30
 # Number of relays to iterate
-NUMBER_OF_RELAYS = 5
+NUMBER_OF_RELAYS = 1
 
 ONBOARD_LED_PIN = board.GP25
 
@@ -91,12 +91,8 @@ def print_status(relay_num, status, seconds):
 
 
 def toggle_relay(relay):
-    print_status(relay_number, True, RELAY_OPEN_SECONDS)
-
     relay.value = False
     time.sleep(RELAY_OPEN_SECONDS)
-
-    print_status(relay_number, False, RELAY_DELAY_SECONDS)
     relay.value = True
 
 
@@ -104,21 +100,21 @@ def toggle_relay(relay):
 for relay in relays:
     relay.value = True
 
-# Delay first run
-time.sleep(RELAY_DELAY_SECONDS)
+print("Starting Relay Sequence")
 
-while True:
-    print("Starting Relay Sequence")
+relay_number = 1
 
-    relay_number = 1
+for relay in relays:
+    onboard_led.value = True
 
-    for relay in relays:
-        onboard_led.value = False
+    print_status(relay_number, True, RELAY_OPEN_SECONDS)
+    toggle_relay(relay)
+    print_status(relay_number, False, RELAY_DELAY_SECONDS)
 
-        toggle_relay(relay)
+    onboard_led.value = False
 
-        onboard_led.value = False
-        time.sleep(RELAY_DELAY_SECONDS)
-        relay_number += 1
+    time.sleep(RELAY_DELAY_SECONDS)
+    
+    relay_number += 1
 
-    print("Finished Relay Sequence")
+print("Finished Relay Sequence")
